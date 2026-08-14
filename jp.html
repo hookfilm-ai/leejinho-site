@@ -65,6 +65,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--black);line-hei
 .i-ja,.i-en{display:none !important}
 body[data-lang="ja"] .i-ko,body[data-lang="ja"] .i-en{display:none !important}
 body[data-lang="ja"] .i-ja{display:revert !important}
+body[data-lang="ja"] a.dl-btn.i-ja,body[data-lang="en"] a.dl-btn.i-en,body[data-lang="ko"] a.dl-btn.i-ko{display:inline-flex !important}
 body[data-lang="en"] .i-ko:not(.i-en),body[data-lang="en"] .i-ja{display:none !important}
 body[data-lang="en"] .i-en{display:revert !important}
 body[data-lang="ko"] #btnKo,body[data-lang="ja"] #btnJa,body[data-lang="en"] #btnEn{opacity:1;border-color:rgba(255,255,255,.35)}
@@ -728,9 +729,9 @@ html.js .stats-in .rv:nth-child(4){transition-delay:.18s}
             <div class="dl-lead"><span class="i-ko">전자책 『포맷의 기초』 무료 다운로드</span><span class="i-ja">電子書籍『フォーマットの基礎』無料ダウンロード</span><span class="i-en">Free e-book — <i>Format Basics</i></span></div>
             <p class="dl-sub"><span class="i-ko">열심히 만드는데도 안 되는 진짜 이유. 마케팅 용어 하나 없이, 옆에서 설명하듯 쓴 32쪽짜리 입문서입니다.</span><span class="i-ja">一生懸命やっているのに結果が出ない、本当の理由。マーケティング用語を一切使わず、となりで話すように書いた32ページの入門書です。</span><span class="i-en">The real reason it isn't working, even though you're working hard. A 32-page primer written the way I'd explain it sitting next to you — no jargon.</span></p>
             <div class="dl-row">
-              <a class="dl-btn" href="/download/format-basics-ko.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>한국어 PDF</span></a>
-              <a class="dl-btn" href="/download/format-basics-ja.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>日本語 PDF</span></a>
-              <a class="dl-btn" href="/download/format-basics-en.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>English PDF</span></a>
+              <a class="dl-btn i-ko" href="/download/format-basics-ko.pdf" download="포맷의 기초.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>포맷의 기초 · PDF 내려받기</span></a>
+              <a class="dl-btn i-ja" href="/download/format-basics-ja.pdf" download="フォーマットの基礎.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>フォーマットの基礎 · PDFをダウンロード</span></a>
+              <a class="dl-btn i-en" href="/download/format-basics-en.pdf" download="Format Basics.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg><span>Format Basics · Download PDF</span></a>
             </div>
             <div class="dl-note"><span class="i-ko">32쪽 · A5 · 무료 · 이메일 입력 없이 바로 받으실 수 있어요.</span><span class="i-ja">32ページ · A5 · 無料 · メールアドレスの入力なしでダウンロードできます。</span><span class="i-en">32 pages · A5 · free · no email required.</span></div>
           </div>
@@ -1591,9 +1592,13 @@ if(location.protocol==='file:'){
   btnJa.addEventListener('click',function(e){e.preventDefault();setLang('ja')});
   btnEn.addEventListener('click',function(e){e.preventDefault();setLang('en')});
 }
-setLang(
-  (/\/jp\/?$/.test(location.pathname)||location.hash==='#ja') ? 'ja' :
-  (/\/en\/?$/.test(location.pathname)||location.hash==='#en') ? 'en' : 'ko');
+(function(){
+  // the served page already declares its language; the path/hash is only a fallback
+  var served=document.body.getAttribute('data-lang');
+  var byUrl=(/\/jp\/?$/.test(location.pathname)||location.hash==='#ja') ? 'ja' :
+            (/\/en\/?$/.test(location.pathname)||location.hash==='#en') ? 'en' : null;
+  setLang(byUrl || served || 'ko');
+})();
 
 // ---------- nav solid on scroll ----------
 const nav=document.getElementById('nav');
