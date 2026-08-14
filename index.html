@@ -96,8 +96,8 @@ nav.solid{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);-webkit-backd
 .hero-meta span{position:relative}
 .hero-meta span:not(:last-child)::after{content:'';position:absolute;right:-15px;top:50%;width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25)}
 .hero-visual{position:relative;height:100%;min-height:520px;z-index:1}
-.hero-visual .portrait{position:absolute;bottom:0;right:min(0px,calc(600px - 50vw));width:calc(100% + 50vw - 600px + 60px);height:92%;min-width:520px}
-.hero-visual .portrait img{width:100%;height:100%;object-fit:cover;object-position:center bottom;filter:grayscale(1) contrast(1.04);
+.hero-visual .portrait{position:absolute;bottom:0;right:min(0px,calc(600px - 50vw));height:min(94%,860px);aspect-ratio:1240/1400;width:auto;min-width:0}
+.hero-visual .portrait img{width:100%;height:100%;object-fit:contain;object-position:right bottom;filter:grayscale(1) contrast(1.04);
   mask-image:linear-gradient(to right,transparent 0%,#000 26%),linear-gradient(to bottom,transparent 0%,#000 14%);
   -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 26%),linear-gradient(to bottom,transparent 0%,#000 14%);
   mask-composite:intersect;-webkit-mask-composite:source-in}
@@ -112,10 +112,10 @@ nav.solid{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);-webkit-backd
   .hero-copy{padding:130px 0 370px}
   .hero-sub br{display:none}
   .hero-visual{position:absolute;inset:auto 0 0 0;height:360px;min-height:0;z-index:0;pointer-events:none}
-  .hero-visual .portrait{right:-16%;left:auto;width:116%;height:100%;min-width:0}
-  .hero-visual .portrait img{object-position:center bottom;
-    mask-image:linear-gradient(to top,#000 55%,transparent 100%);
-    -webkit-mask-image:linear-gradient(to top,#000 55%,transparent 100%);
+  .hero-visual .portrait{right:-6%;left:auto;height:100%;width:auto;aspect-ratio:1240/1400;min-width:0}
+  .hero-visual .portrait img{object-fit:contain;object-position:right bottom;
+    mask-image:linear-gradient(to top,#000 62%,transparent 100%);
+    -webkit-mask-image:linear-gradient(to top,#000 62%,transparent 100%);
     mask-composite:add;-webkit-mask-composite:source-over}
 }
 
@@ -335,6 +335,22 @@ footer{background:var(--black);border-top:1px solid var(--line-d);color:#fff}
   .uni-result .rr{font-size:14px;flex-direction:column;gap:12px}
   .uni-result .plus{display:none}
 }
+
+
+/* orbit map */
+.uni-map{margin-top:64px;display:block}
+.uni-map svg{width:100%;height:auto;display:block;overflow:visible}
+.uni-map .mt{font-family:var(--latin);font-size:11px;font-weight:500;letter-spacing:.26em;text-transform:uppercase}
+.uni-map .mh{font-size:21px;font-weight:600;fill:#fff}
+.uni-map .mq{font-size:14px;fill:rgba(255,255,255,.72)}
+.uni-map .ms{font-size:12.5px;fill:rgba(255,255,255,.42)}
+.uni-map .nodeno{font-family:var(--latin);font-size:20px;font-weight:300}
+@media(max-width:880px){.uni-map{display:none}}
+
+
+.d-ja{display:none}
+body[data-lang="ja"] .d-ko{display:none}
+body[data-lang="ja"] .d-ja{display:inline}
 
 /* ================= MOBILE REFINEMENTS ================= */
 @media(max-width:720px){
@@ -644,6 +660,45 @@ footer{background:var(--black);border-top:1px solid var(--line-d);color:#fff}
       <p class="uni-lead i-ja">フック・ユニバースは三つの軌道で動きます。何を語るのか、どう記憶されるのか、そしてどう成長するのか。</p>
     </div>
 
+
+    <div class="uni-map rv" aria-hidden="true">
+      <svg viewBox="0 0 1100 690" role="img">
+        <defs>
+          <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="rgba(255,255,255,.35)"/>
+          </marker>
+        </defs>
+        <circle cx="550" cy="300" r="52" fill="none" stroke="rgba(255,255,255,.07)"/>
+        <circle cx="550" cy="300" r="34" fill="none" stroke="rgba(255,255,255,.10)"/>
+
+        <line x1="278" y1="300" x2="822" y2="300" stroke="rgba(255,255,255,.22)" stroke-width="1" marker-end="url(#arw)"/>
+        <line x1="245" y1="336" x2="516" y2="486" stroke="rgba(255,255,255,.18)" stroke-width="1" stroke-dasharray="3 5"/>
+        <line x1="855" y1="336" x2="584" y2="486" stroke="rgba(255,255,255,.18)" stroke-width="1" marker-end="url(#arw)"/>
+
+        <text class="mt" x="245" y="86" text-anchor="middle" fill="#34d399">Foundation</text>
+        <text class="mh" x="245" y="120" text-anchor="middle">Back to Basic</text>
+        <text class="mq" x="245" y="150" text-anchor="middle"><tspan class="d-ko">무엇을 말할 것인가</tspan><tspan class="d-ja">何を語るのか</tspan></text>
+        <text class="ms" x="245" y="180" text-anchor="middle"><tspan class="d-ko">정체성 · 나만의 경험 · 관점 · 전문성</tspan><tspan class="d-ja">アイデンティティ・経験・視点・専門性</tspan></text>
+        <circle cx="245" cy="300" r="36" fill="none" stroke="rgba(52,211,153,.55)"/>
+        <text class="nodeno" x="245" y="308" text-anchor="middle" fill="#34d399">01</text>
+
+        <text class="mt" x="855" y="86" text-anchor="middle" fill="#f472b6">Format</text>
+        <text class="mh" x="855" y="120" text-anchor="middle"><tspan class="d-ko">포맷</tspan><tspan class="d-ja">フォーマット</tspan></text>
+        <text class="mq" x="855" y="150" text-anchor="middle"><tspan class="d-ko">어떻게 기억될 것인가</tspan><tspan class="d-ja">どう記憶されるのか</tspan></text>
+        <text class="ms" x="855" y="180" text-anchor="middle"><tspan class="d-ko">반복되는 기대감 설계</tspan><tspan class="d-ja">繰り返される期待感の設計</tspan></text>
+        <circle cx="855" cy="300" r="36" fill="none" stroke="rgba(236,72,153,.55)"/>
+        <text class="nodeno" x="855" y="308" text-anchor="middle" fill="#f472b6">02</text>
+
+        <circle cx="550" cy="500" r="36" fill="none" stroke="rgba(56,212,238,.55)"/>
+        <text class="nodeno" x="550" y="508" text-anchor="middle" fill="#38d4ee">03</text>
+        <text class="mt" x="550" y="568" text-anchor="middle" fill="#38d4ee">Founders</text>
+        <text class="mh" x="550" y="602" text-anchor="middle"><tspan class="d-ko">훅 파운더스</tspan><tspan class="d-ja">フック・ファウンダーズ</tspan></text>
+        <text class="mq" x="550" y="632" text-anchor="middle"><tspan class="d-ko">어떻게 성장할 것인가</tspan><tspan class="d-ja">どう成長するのか</tspan></text>
+        <text class="ms" x="550" y="662" text-anchor="middle"><tspan class="d-ko">현장에서 함께 설계하고 · 실행하고 · 검증하는</tspan><tspan class="d-ja">現場で共に設計し・実行し・検証する</tspan></text>
+        <text class="mt" x="550" y="690" text-anchor="middle" fill="rgba(56,212,238,.8)" style="letter-spacing:.16em">Exclusive Community</text>
+      </svg>
+    </div>
+
     <div class="uni-tracks">
       <div class="trk t1 rv">
         <div class="trk-no">01</div>
@@ -770,12 +825,11 @@ footer{background:var(--black);border-top:1px solid var(--line-d);color:#fff}
       </div>
     </div>
     <div class="film-wrap rv" id="filmWrap" data-vid="_2Usc2bmHww">
-      <button class="film-play" id="filmPlay" type="button" aria-label="소개 영상 재생">
-        <img class="film-thumb" src="https://i.ytimg.com/vi/_2Usc2bmHww/maxresdefault.jpg" alt="훜선장 이진호 소개영상"
-             onerror="this.src='https://i.ytimg.com/vi/_2Usc2bmHww/hqdefault.jpg'">
-        <span class="film-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="film-label"><span class="i-ko">소개 영상 재생</span><span class="i-ja">紹介映像を再生</span></span>
-      </button>
+      <iframe src="https://www.youtube.com/embed/_2Usc2bmHww?rel=0&amp;playsinline=1&amp;modestbranding=1"
+              title="훜선장 이진호 소개영상"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen loading="lazy"></iframe>
     </div>
     <p class="film-fallback rv">
       <span class="i-ko">영상이 보이지 않으면 </span><span class="i-ja">映像が表示されない場合は </span>
@@ -1256,19 +1310,6 @@ onScroll();window.addEventListener('scroll',onScroll,{passive:true});
 // ---------- reveal ----------
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-
-// ---------- film: click to load player ----------
-document.getElementById('filmPlay').addEventListener('click',function(){
-  var wrap=document.getElementById('filmWrap');
-  var vid=wrap.dataset.vid;
-  var f=document.createElement('iframe');
-  f.src='https://www.youtube.com/embed/'+vid+'?autoplay=1&rel=0&playsinline=1&origin='+encodeURIComponent(location.origin);
-  f.title='훜선장 이진호 소개영상';
-  f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-  f.allowFullscreen=true;
-  wrap.innerHTML='';
-  wrap.appendChild(f);
-});
 
 // ---------- contact form ----------
 const form=document.getElementById('contactForm');
