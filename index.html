@@ -36,6 +36,7 @@ body{font-family:var(--sans);background:var(--white);color:var(--black);line-hei
 .i-ja{display:none !important}
 body[data-lang="ja"] .i-ko{display:none !important}
 body[data-lang="ja"] .i-ja{display:revert !important}
+body[data-lang="ko"] #btnKo,body[data-lang="ja"] #btnJa{opacity:1;border-color:rgba(255,255,255,.35)}
 .i-ja,.i-ja *{word-break:normal}
 h1,h2,h3{text-wrap:balance}
 p,li{text-wrap:pretty}
@@ -65,12 +66,12 @@ nav.solid{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);-webkit-backd
 .nav-cta:hover{transform:translateY(-1px);opacity:.9}
 /* lang switch */
 .lang-sw{display:flex;align-items:center;gap:8px;margin-left:4px;padding-left:22px;border-left:1px solid var(--line-d)}
-.lang-btn{background:none;border:1px solid transparent;border-radius:6px;padding:4px;cursor:pointer;opacity:.4;transition:opacity .25s,border-color .25s;line-height:0}
+.lang-btn{display:inline-block;background:none;border:1px solid transparent;border-radius:6px;padding:4px;cursor:pointer;opacity:.4;transition:opacity .25s,border-color .25s;line-height:0;text-decoration:none}
 .lang-btn svg{width:24px;height:16px;border-radius:2.5px;display:block}
 .lang-btn:hover{opacity:.8}
 .lang-btn.active{opacity:1;border-color:rgba(255,255,255,.35)}
 @media(max-width:880px){
-  .nav-links a:not(.nav-cta){display:none}
+  .nav-links a:not(.nav-cta):not(.lang-btn){display:none}
   .lang-sw{border-left:none;padding-left:0;margin-left:0;gap:4px}
   .nav-in{padding:14px 18px;gap:10px}
   .nav-links{gap:12px}
@@ -110,13 +111,13 @@ nav.solid{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);-webkit-backd
 .hero-scroll .t{font-family:var(--latin);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.4)}
 @media(max-width:880px){
   .hero-grid{grid-template-columns:1fr;min-height:auto;position:relative}
-  .hero-copy{padding:130px 0 370px}
+  .hero-copy{padding:120px 0 400px}
   .hero-sub br{display:none}
-  .hero-visual{position:absolute;inset:auto 0 0 0;height:360px;min-height:0;z-index:0;pointer-events:none}
-  .hero-visual .portrait{right:-2%;left:auto;height:100%;width:auto;aspect-ratio:976/1102;min-width:0}
+  .hero-visual{position:absolute;inset:auto 0 0 0;height:430px;min-height:0;z-index:0;pointer-events:none}
+  .hero-visual .portrait{right:-14%;left:auto;bottom:0;width:112%;height:auto;aspect-ratio:976/1102;min-width:0}
   .hero-visual .portrait img{object-fit:contain;object-position:right bottom;
-    mask-image:linear-gradient(to top,#000 62%,transparent 100%);
-    -webkit-mask-image:linear-gradient(to top,#000 62%,transparent 100%);
+    mask-image:linear-gradient(to top,#000 55%,transparent 92%);
+    -webkit-mask-image:linear-gradient(to top,#000 55%,transparent 92%);
     mask-composite:add;-webkit-mask-composite:source-over}
 }
 
@@ -443,12 +444,12 @@ html.js .rv.on{opacity:1;transform:none}
       <a href="#experience">Experience</a>
       <a class="nav-cta" href="#contact"><span class="i-ko">문의하기</span><span class="i-ja">お問い合わせ</span></a>
       <div class="lang-sw">
-        <button class="lang-btn active" id="btnKo" title="한국어" aria-label="한국어">
+        <a class="lang-btn" id="btnKo" href="/" hreflang="ko" title="한국어" aria-label="한국어">
           <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><g transform="translate(15,10)"><circle r="4.6" fill="#cd2e3a"/><path d="M-4.6 0a4.6 4.6 0 0 0 9.2 0 2.3 2.3 0 0 0-4.6 0 2.3 2.3 0 0 1-4.6 0z" fill="#0047a0"/></g><g fill="#0a0a0a"><g transform="translate(5.2,4.2) rotate(-33)"><rect x="-2.2" y="-1.5" width="4.4" height=".8"/><rect x="-2.2" y="-.4" width="4.4" height=".8"/><rect x="-2.2" y=".7" width="4.4" height=".8"/></g><g transform="translate(24.8,15.8) rotate(-33)"><rect x="-2.2" y="-1.5" width="4.4" height=".8"/><rect x="-2.2" y="-.4" width="2" height=".8"/><rect x="0.2" y="-.4" width="2" height=".8"/><rect x="-2.2" y=".7" width="4.4" height=".8"/></g><g transform="translate(24.8,4.2) rotate(33)"><rect x="-2.2" y="-1.5" width="2" height=".8"/><rect x="0.2" y="-1.5" width="2" height=".8"/><rect x="-2.2" y="-.4" width="4.4" height=".8"/><rect x="-2.2" y=".7" width="2" height=".8"/><rect x="0.2" y=".7" width="2" height=".8"/></g><g transform="translate(5.2,15.8) rotate(33)"><rect x="-2.2" y="-1.5" width="2" height=".8"/><rect x="0.2" y="-1.5" width="2" height=".8"/><rect x="-2.2" y="-.4" width="2" height=".8"/><rect x="0.2" y="-.4" width="2" height=".8"/><rect x="-2.2" y=".7" width="2" height=".8"/><rect x="0.2" y=".7" width="2" height=".8"/></g></g></svg>
-        </button>
-        <button class="lang-btn" id="btnJa" title="日本語" aria-label="日本語">
+        </a>
+        <a class="lang-btn" id="btnJa" href="/jp/" hreflang="ja" title="日本語" aria-label="日本語">
           <svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5.6" fill="#bc002d"/></svg>
-        </button>
+        </a>
       </div>
     </div>
   </div>
@@ -1246,19 +1247,14 @@ function setLang(l){
   document.querySelectorAll('[data-ph-ko]').forEach(e=>{e.placeholder=e.dataset['ph'+(l==='ko'?'Ko':'Ja')]});
   document.querySelectorAll('option[data-t-ko]').forEach(o=>{o.textContent=o.dataset[(l==='ko'?'tKo':'tJa')]});
   document.title=(l==='ko')?'이진호 — 본질에서 시작하는 콘텐츠':'イ・ジンホ — 本質から始まるコンテンツ';
-  try{
-    if(location.protocol.indexOf('http')===0){
-      var base=location.pathname.replace(/\/jp\/?$/,'/');
-      if(base.charAt(base.length-1)!=='/') base+='/';
-      history.replaceState(null,'', l==='ja' ? base+'jp/' : base);
-    }else{
-      history.replaceState(null,'', l==='ja' ? '#ja' : location.pathname);
-    }
-  }catch(e){}
   try{localStorage.removeItem('lang')}catch(e){}
 }
-btnKo.addEventListener('click',()=>setLang('ko'));
-btnJa.addEventListener('click',()=>setLang('ja'));
+// on a real server the flags are plain links (/ and /jp/) — nothing can desync.
+// when the file is opened directly (file://) there is no server, so toggle in place.
+if(location.protocol==='file:'){
+  btnKo.addEventListener('click',function(e){e.preventDefault();setLang('ko')});
+  btnJa.addEventListener('click',function(e){e.preventDefault();setLang('ja')});
+}
 setLang((/\/jp\/?$/.test(location.pathname)||location.hash==='#ja') ? 'ja' : 'ko');
 
 // ---------- nav solid on scroll ----------
