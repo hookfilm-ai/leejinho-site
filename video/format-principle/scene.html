@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>포맷의 원리</title>
+<style>
+  :root{
+    --navy:#12235B; --blue:#2B57E6; --blue2:#5A85F7;
+    --lav:#B9C7F2; --lav2:#DCE3FA; --paper:#EEF1F8; --muted:#7C8AB4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+  body{font-family:'Pretendard',sans-serif;-webkit-font-smoothing:antialiased;color:var(--navy)}
+
+  #stage{position:absolute;inset:0;overflow:hidden}
+
+  /* ---- 카메라가 움직이는 월드 ---- */
+  #world{position:absolute;left:0;top:0;height:1920px;will-change:transform}
+  #thread{position:absolute;left:0;top:0;overflow:visible;z-index:0}
+  .beat{position:absolute;top:0;width:1080px;height:1920px;z-index:1}
+
+  .eyebrow{position:absolute;left:64px;top:480px;font-size:30px;font-weight:800;
+           color:var(--blue);letter-spacing:.04em}
+  .title{position:absolute;left:60px;top:520px;font-size:88px;font-weight:800;
+         letter-spacing:-.035em;line-height:1.12;white-space:pre-line}
+
+  .art{position:absolute;width:600px;height:518px}
+  .art svg{width:100%;height:100%;overflow:visible}
+
+  .tag{position:absolute;background:var(--blue);color:#fff;font-size:29px;font-weight:800;
+       padding:13px 22px;transform-origin:left center;
+       box-shadow:0 8px 18px rgba(18,35,91,.18)}
+  .tag i{display:block;font-style:normal;transform:skewX(9deg)}
+  .tag.sk{transform:skewX(-9deg)}
+  .tag.soft{background:var(--blue2)}
+
+  .card{position:absolute;background:#fff;border-radius:26px;padding:26px 34px;
+        border:3px solid var(--lav);box-shadow:0 14px 30px rgba(18,35,91,.12)}
+  .card b{display:block;font-size:38px;font-weight:800;letter-spacing:-.02em}
+  .card span{display:block;margin-top:8px;font-size:27px;font-weight:600;color:var(--muted)}
+
+  .flow{position:absolute;display:flex;align-items:center;gap:0}
+  .step{display:flex;align-items:center;gap:16px;background:#fff;border-radius:22px;
+        padding:20px 30px;border:3px solid var(--lav);box-shadow:0 12px 26px rgba(18,35,91,.12)}
+  .step em{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;
+           font-style:normal;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .step u{text-decoration:none;font-size:33px;font-weight:800;letter-spacing:-.02em}
+  .link{width:54px;height:6px;background:var(--blue);border-radius:3px}
+
+  /* ---- 화면에 고정되는 레이어 ---- */
+  #caps{position:absolute;left:0;top:330px;width:1080px;height:210px;z-index:5}
+  .cap{position:absolute;left:90px;width:900px;text-align:center;font-size:45px;
+       font-weight:700;line-height:1.5;letter-spacing:-.025em}
+  .cap b{font-weight:800;color:var(--blue);border-bottom:6px solid var(--blue);padding-bottom:2px}
+
+  #chip{position:absolute;left:64px;top:120px;z-index:6;display:flex;align-items:center;gap:14px;
+        font-size:27px;font-weight:800;color:var(--muted);letter-spacing:.01em}
+  #chip s{display:block;width:16px;height:16px;border-radius:50%;background:var(--blue);text-decoration:none}
+
+  #mark{position:absolute;left:0;top:1560px;width:1080px;text-align:center;z-index:6;
+        font-size:27px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+  #bar{position:absolute;left:0;top:0;width:1080px;height:7px;
+       background:rgba(18,35,91,.09);z-index:6;overflow:hidden}
+  #bar i{display:block;height:100%;width:0;background:var(--blue);border-radius:3px}
+
+  /* 아웃트로 전용 */
+  .outro{position:absolute;left:0;top:0;width:1080px;height:1920px;text-align:center}
+  .outro .big{position:absolute;left:0;top:1330px;width:1080px;font-size:64px;font-weight:800;letter-spacing:-.035em}
+  .outro .sub{position:absolute;left:0;top:1436px;width:1080px;font-size:32px;font-weight:600;color:var(--muted)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <filter id="sticker" x="-18%" y="-18%" width="136%" height="136%">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="9" result="dil"/>
+    <feFlood flood-color="#ffffff" result="wht"/>
+    <feComposite in="wht" in2="dil" operator="in" result="outline"/>
+    <feDropShadow in="outline" dx="0" dy="7" stdDeviation="9"
+                  flood-color="#16306b" flood-opacity="0.16" result="shad"/>
+    <feMerge><feMergeNode in="shad"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs></svg>
+
+<div id="stage">
+  <div id="world"><svg id="thread"><path id="threadPath" fill="none" stroke="#2B57E6" stroke-width="9" stroke-linecap="round"/></svg></div>
+  <div id="caps"></div>
+  <div id="chip"><s></s><span>포맷의 원리 · 훜선장</span></div>
+  <div id="mark">@captainhoooook · leejinho.com</div>
+  <div id="bar"><i></i></div>
+</div>
+
+<script src="art.js"></script>
+<script>
+/* ============ 콘텐츠 ============ */
+const ART_BOX = {x:60, y:790};
+
+const BEATS = [
+  { eyebrow:'출발점', title:'매번 새로 만드는 밤',
+    cap:'열심히 만드는데, **왜 기억엔 안 남을까요.**',
+    art:'night',
+    tags:[{t:'오늘은 뭘 올리지', x:686, y:842},
+          {t:'매번 처음부터', x:724, y:948, soft:true}] },
+
+  { eyebrow:'정의', title:'포맷은\n지켜지는 뼈대',
+    cap:'포맷은 **매번 똑같이 지키는 뼈대**입니다.',
+    art:'frame',
+    tags:[{t:'틀은 그대로', x:690, y:872},
+          {t:'내용은 매번 새로', x:652, y:978, soft:true}] },
+
+  { eyebrow:'오해', title:'엄마 밥은\n늘 엄마 밥',
+    cap:'반찬은 매일 달라도, **‘엄마 밥’은 늘 엄마 밥**이죠.',
+    art:'meal',
+    tags:[{t:'메뉴는 매일 바뀜', x:110, y:1332},
+          {t:'느낌은 늘 그대로', x:520, y:1332, soft:true}] },
+
+  { eyebrow:'원리', title:'예상되면\n마음이 놓인다',
+    cap:'사람은 **예상이 되는 쪽**에 마음을 놓습니다.',
+    art:'trust',
+    flow:{x:96, y:1318, items:['반복','예상','신뢰'], plain:true} },
+
+  { eyebrow:'알고리즘', title:'취향을 아는\n배달부',
+    cap:'알고리즘도 **또렷한 계정**부터 알아봅니다.',
+    art:'delivery',
+    tags:[{t:'뭐 하는 곳인지 알아야', x:120, y:1332},
+          {t:'데려다줄 사람을 찾는다', x:566, y:1332, soft:true}] },
+
+  { eyebrow:'시그니처', title:'빠지지 않는\n한 장면',
+    cap:'매번 반복되는 한 장면이 **사람을 각인시킵니다.**',
+    art:'signature',
+    card:{x:640, y:900, t:'립밤 선생님', s:'매 영상, 립밤을 바르고 시작했어요'} },
+
+  { eyebrow:'첫걸음', title:'뭐부터\n하면 될까요',
+    cap:'**나는 어떤 걸 매일 해도 안 질릴까?**',
+    art:'note',
+    flow:{x:96, y:1318, items:['시작','중간','끝'], num:true} },
+
+  { eyebrow:'정리', title:'오늘의 세 가지',
+    cap:'오늘 손에 쥘 건 **딱 세 가지**입니다.',
+    stack:{x:80, y:760, items:['뼈대는 매번 그대로','내용은 매번 새롭게','한 장면은 끝까지 반복']} },
+
+  { eyebrow:'', title:'', cap:'포맷은 타고나는 게 아니라, **배워서 만드는 것**이에요.', outro:true, art:'hook' }
+];
+
+const FPS = 30;
+const LEAD = 0.5;
+const DUR  = [6.12,7.29,8.25,7.35,7.56,8.14,6.14,6.33,5.05];
+const START = []; let acc = LEAD;
+for (const d of DUR){ START.push(acc); acc += d; }
+const TOTAL = acc + 0.6;
+const STRIDE = 950;
+
+/* ============ 유틸 ============ */
+const cl = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const outCubic = p => 1 - Math.pow(1 - p, 3);
+const outBack  = p => { const c = 1.7; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+const inOutCubic = p => p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3)/2;
+
+function mkCap(str){
+  return str.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+}
+
+/* ============ DOM 만들기 ============ */
+const world = document.getElementById('world');
+const caps  = document.getElementById('caps');
+const anim  = [];  // {el, start, dur, dy, pop}
+
+function reg(el, start, dur, dy, pop){ anim.push({el, start, dur, dy, pop: !!pop}); }
+
+BEATS.forEach((b, i) => {
+  const s = START[i];
+  const beat = document.createElement('div');
+  beat.className = 'beat';
+  beat.style.left = (i * STRIDE) + 'px';
+
+  if (b.eyebrow){
+    const e = document.createElement('div'); e.className = 'eyebrow'; e.textContent = b.eyebrow;
+    beat.appendChild(e); reg(e, s + .02, .45, 22);
+  }
+  if (b.title){
+    const h = document.createElement('div'); h.className = 'title'; h.textContent = b.title;
+    beat.appendChild(h); reg(h, s + .10, .55, 34);
+  }
+  if (b.art){
+    const a = document.createElement('div'); a.className = 'art';
+    a.style.left = (b.outro ? 240 : ART_BOX.x) + 'px';
+    a.style.top  = (b.outro ? 600 : ART_BOX.y) + 'px';
+    a.innerHTML = '<svg viewBox="0 0 440 380"><g filter="url(#sticker)">' + ART[b.art] + '</g></svg>';
+    beat.appendChild(a); reg(a, s + .26, .62, 26, true);
+  }
+  (b.tags || []).forEach((t, k) => {
+    const el = document.createElement('div');
+    el.className = 'tag sk' + (t.soft ? ' soft' : '');
+    el.innerHTML = '<i>' + t.t + '</i>';
+    el.style.left = t.x + 'px'; el.style.top = t.y + 'px';
+    beat.appendChild(el); reg(el, s + .78 + k * .30, .42, 18);
+  });
+  if (b.card){
+    const el = document.createElement('div'); el.className = 'card';
+    el.style.left = b.card.x + 'px'; el.style.top = b.card.y + 'px'; el.style.width = '380px';
+    el.innerHTML = '<b>' + b.card.t + '</b><span>' + b.card.s + '</span>';
+    beat.appendChild(el); reg(el, s + .85, .5, 22, true);
+  }
+  if (b.flow){
+    const wrap = document.createElement('div'); wrap.className = 'flow';
+    wrap.style.left = b.flow.x + 'px'; wrap.style.top = b.flow.y + 'px';
+    b.flow.items.forEach((it, k) => {
+      if (k){ const l = document.createElement('div'); l.className = 'link'; wrap.appendChild(l); reg(l, START[i] + .92 + k*.26, .3, 0); }
+      const st = document.createElement('div'); st.className = 'step';
+      st.innerHTML = (b.flow.num ? '<em>' + (k+1) + '</em>' : '') + '<u>' + it + '</u>';
+      wrap.appendChild(st); reg(st, START[i] + .80 + k * .26, .44, 20, true);
+    });
+    beat.appendChild(wrap);
+  }
+  if (b.stack){
+    b.stack.items.forEach((it, k) => {
+      const st = document.createElement('div'); st.className = 'step';
+      st.style.position = 'absolute';
+      st.style.left = (b.stack.x + k * 34) + 'px';
+      st.style.top  = (b.stack.y + k * 148) + 'px';
+      st.innerHTML = '<em>' + (k+1) + '</em><u>' + it + '</u>';
+      beat.appendChild(st); reg(st, START[i] + .32 + k * .34, .5, 26, true);
+    });
+  }
+  if (b.outro){
+    const o = document.createElement('div'); o.className = 'outro';
+    o.innerHTML = '<div class="big">틀은 지키고, 내용만 바꾸세요.</div>' +
+                  '<div class="sub">전자책 『포맷의 기초』 · leejinho.com 에서 무료로</div>';
+    beat.appendChild(o);
+    reg(o.querySelector('.big'), START[i] + .70, .55, 30);
+    reg(o.querySelector('.sub'), START[i] + .98, .55, 24);
+  }
+  world.appendChild(beat);
+
+  const c = document.createElement('div');
+  c.className = 'cap';
+  c.innerHTML = mkCap(b.cap);
+  caps.appendChild(c);
+});
+
+const capEls = [...caps.children];
+const beatEls = [...world.querySelectorAll('.beat')];
+
+/* 이어지는 파란 실 */
+const N = BEATS.length;
+const THREAD_Y = 1188;
+let d = '';
+for (let i = 0; i < N; i++){
+  const x = i * STRIDE + 330;
+  const y = THREAD_Y + (i % 2 ? -34 : 26);
+  if (!i) d = `M ${x - 300} ${y}`;
+  else {
+    const px = (i - 1) * STRIDE + 330, py = THREAD_Y + ((i - 1) % 2 ? -34 : 26);
+    d += ` C ${px + STRIDE * .45} ${py + 90}, ${x - STRIDE * .45} ${y - 90}, ${x} ${y}`;
+  }
+}
+d += ` L ${(N - 1) * STRIDE + 470} ${THREAD_Y + ((N - 1) % 2 ? -34 : 26)}`;
+const path = document.getElementById('threadPath');
+path.setAttribute('d', d);
+const LEN = path.getTotalLength();
+path.style.strokeDasharray = LEN;
+document.getElementById('thread').setAttribute('width', (N * STRIDE + 1200));
+document.getElementById('thread').setAttribute('height', 1920);
+
+const barFill = document.querySelector('#bar i');
+
+/* ============ 렌더 ============ */
+function render(t){
+  // 카메라 — 장면과 장면 사이를 이어서 지나간다
+  let cam = -46 * (1 - inOutCubic(cl(t / (LEAD + .4))));
+  for (let i = 1; i < N; i++){
+    const p = cl((t - (START[i] - .55)) / 1.05);
+    cam += STRIDE * inOutCubic(p);
+  }
+  world.style.transform = `translate3d(${-cam}px,0,0)`;
+
+  let idx = 0;
+  for (let i = 0; i < N; i++) if (t >= START[i]) idx = i;
+
+  // 멀리 있는 장면은 그리지 않음
+  beatEls.forEach((el, i) => {
+    el.style.visibility = Math.abs(i * STRIDE - cam) > 1900 ? 'hidden' : 'visible';
+  });
+
+  // 실 그리기
+  const fIdx = idx + cl((t - START[idx]) / (DUR[idx] || 4.5));
+  const f = cl((fIdx + .55) / (N - 1 + .55));
+  path.style.strokeDashoffset = LEN * (1 - f);
+
+  // 요소 등장
+  for (const a of anim){
+    const p = cl((t - a.start) / a.dur);
+    const e = outCubic(p);
+    a.el.style.opacity = e;
+    const sc = a.pop ? (0.9 + 0.1 * outBack(p)) : 1;
+    a.el.style.transform = `translate3d(0,${(1 - e) * a.dy}px,0) scale(${sc})`;
+  }
+
+  // 자막
+  capEls.forEach((el, i) => {
+    if (!el.innerHTML){ el.style.opacity = 0; return; }
+    const inP  = cl((t - (START[i] - .12)) / .38);
+    const outP = i + 1 < N ? cl((t - (START[i + 1] - .18)) / .30) : 0;
+    const o = outCubic(inP) * (1 - outP);
+    el.style.opacity = o;
+    el.style.transform = `translate3d(0,${(1 - outCubic(inP)) * 16 - outP * 14}px,0)`;
+  });
+
+  barFill.style.width = (cl(t / TOTAL) * 100) + '%';
+}
+
+window.__total = TOTAL;
+window.__fps = FPS;
+window.__render = render;
+render(0);
+document.fonts.ready.then(() => { window.__ready = true; });
+</script>
+</body>
+</html>
