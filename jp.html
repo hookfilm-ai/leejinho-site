@@ -6,6 +6,15 @@ layout: null
 <html lang="ja" translate="no" class="notranslate">
 <head>
 <meta charset="UTF-8">
+<!-- ANALYTICS START -->
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P6KT82XN');</script>
+<!-- End Google Tag Manager -->
+<!-- ANALYTICS END -->
 <meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>イ・ジンホ（フック船長）— 本質から始まるコンテンツ | デジタルコンテンツ・マーケティング</title>
@@ -483,6 +492,10 @@ html.js .stats-in .rv:nth-child(4){transition-delay:.18s}
 </head>
 <script>document.documentElement.className+=" js";</script>
 <body data-lang="ja">
+<!-- GTM-BODY START -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6KT82XN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- GTM-BODY END -->
 
 <nav id="nav">
   <div class="nav-in">
@@ -938,7 +951,7 @@ html.js .stats-in .rv:nth-child(4){transition-delay:.18s}
       </div>
     </div>
     <div class="film-wrap rv" id="filmWrap" data-vid="_2Usc2bmHww">
-      <iframe src="https://www.youtube.com/embed/_2Usc2bmHww?rel=0&amp;playsinline=1&amp;modestbranding=1"
+      <iframe src="https://www.youtube.com/embed/_2Usc2bmHww?rel=0&amp;playsinline=1&amp;modestbranding=1&amp;enablejsapi=1"
               title="훜선장 이진호 소개영상"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
@@ -1638,6 +1651,9 @@ form.addEventListener('submit',async ev=>{
 </script>
 
 
+
+
+
 <!-- NAVER START -->
 <script type="text/javascript" src="//wcs.pstatic.net/wcslog.js"></script>
 <script type="text/javascript">
@@ -1648,5 +1664,49 @@ wcs_do();
 }
 </script>
 <!-- NAVER END -->
+
+<!-- EVENTS START -->
+<script>
+(function(){
+  function ev(name, params){
+    var p = params || {};
+    try{ window.dataLayer = window.dataLayer || []; dataLayer.push(Object.assign({event:name}, p)); }catch(e){}
+    try{ if(window.gtag) gtag('event', name, p); }catch(e){}
+  }
+  var lang = document.body.getAttribute('data-lang') || 'ko';
+
+  // 1. e-book download
+  document.querySelectorAll('a.dl-btn').forEach(function(a){
+    a.addEventListener('click', function(){
+      ev('ebook_download', {site_lang: lang, file: a.getAttribute('href')});
+    });
+  });
+
+  // 2. contact form actually sent (fires when the success notice appears)
+  var ok = document.getElementById('formOk');
+  if(ok && window.MutationObserver){
+    new MutationObserver(function(){
+      if(ok.style.display === 'block'){ ev('contact_sent', {site_lang: lang}); }
+    }).observe(ok, {attributes:true, attributeFilter:['style']});
+  }
+
+  // 3. intro film played
+  var w = document.getElementById('filmWrap');
+  if(w){
+    var s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+    var fired = false;
+    window.onYouTubeIframeAPIReady = function(){
+      try{
+        new YT.Player(w.querySelector('iframe'), {events:{onStateChange:function(e){
+          if(e.data === 1 && !fired){ fired = true; ev('film_play', {site_lang: lang}); }
+        }}});
+      }catch(e){}
+    };
+  }
+})();
+</script>
+<!-- EVENTS END -->
 </body>
 </html>
