@@ -335,7 +335,8 @@ footer{background:var(--black);border-top:1px solid var(--line-d);color:#fff}
   text-transform:uppercase;line-height:1;margin-left:.24em}
 .uni-sub{margin-top:12px;font-size:11px;letter-spacing:.5em;color:rgba(255,255,255,.4)}
 .uni-claim{margin-top:26px;font-size:clamp(17px,2.1vw,22px);font-weight:500;letter-spacing:-.01em}
-.uni-lead{margin-top:14px;font-size:13.5px;font-weight:300;color:rgba(255,255,255,.45);max-width:560px;line-height:2}
+.uni-lead{margin-top:14px;font-size:13.5px;font-weight:300;color:rgba(255,255,255,.45);max-width:600px;line-height:2;word-break:keep-all}
+.uni-lead .nb{white-space:nowrap}
 
 .uni-tracks{margin-top:72px;display:grid;grid-template-columns:repeat(3,1fr);gap:0}
 .trk{position:relative;padding:0 32px;border-left:1px solid rgba(255,255,255,.09)}
@@ -402,6 +403,15 @@ body[data-lang="ja"] .d-ja{display:inline}
 .dl-btn svg{width:13px;height:13px;flex:none}
 .dl-note{margin-top:12px;font-size:11.5px;font-weight:300;color:var(--gray)}
 @media(max-width:720px){.dl{margin-top:18px;padding-top:18px}.dl-row{gap:8px}.dl-btn{padding:9px 15px;font-size:12px}}
+
+
+/* the download block also has to read on a dark panel */
+.panel:not(.lt) .dl{border-top-color:rgba(255,255,255,.18)}
+.panel:not(.lt) .dl-lead{color:#fff}
+.panel:not(.lt) .dl-sub{color:rgba(255,255,255,.62)}
+.panel:not(.lt) .dl-btn{border-color:rgba(255,255,255,.3);color:#fff}
+.panel:not(.lt) .dl-btn:hover{background:#fff;border-color:#fff;color:var(--black)}
+.panel:not(.lt) .dl-note{color:rgba(255,255,255,.45)}
 
 /* ================= MOBILE REFINEMENTS ================= */
 @media(max-width:720px){
@@ -717,7 +727,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="work-list">
-      <div class="panel rv">
+        <div class="panel rv">
         <div class="big">INFLUENCER</div>
         <div class="p-meta">
           <div class="micro on-dark">01 — Instagram</div>
@@ -729,10 +739,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="i-en">I train creators who build real fans rather than follower counts — from the roots of their content to brand strategy, growing influence at its source.</p>
         </div>
       </div>
-      <div class="panel lt rv">
+        <div class="panel lt rv">
+          <div class="big">NETWORK</div>
+          <div class="p-meta">
+            <div class="micro">02 — Business Network</div>
+            <h3 class="i-ko">인플루언서 비즈니스 네트워크</h3>
+            <h3 class="i-ja">インフルエンサー・ビジネスネットワーク</h3>
+        <h3 class="i-en">Influencer Business Network</h3>
+            <p class="i-ko">인플루언서에게 상품을 공급하는 데서 멈추지 않고, 인플루언서끼리 연결해 함께 브랜드와 제품을 만듭니다. 제조사와 해외 판로까지 이어서, 인플루언서가 창업가로 올라서는 길을 만들고 있습니다.</p>
+            <p class="i-ja">インフルエンサーに商品を供給するだけで終わらせず、インフルエンサー同士をつなぎ、一緒にブランドと製品をつくります。製造元や海外の販路までつなぎ、インフルエンサーが起業家へ進む道をつくっています。</p>
+        <p class="i-en">Rather than stopping at supplying products to creators, I connect creators with one another to build brands and products together — linking them to manufacturers and overseas channels so they can grow into founders.</p>
+          </div>
+        </div>
+        <div class="panel rv">
         <div class="big">FORMAT</div>
         <div class="p-meta">
-          <div class="micro">02 — Methodology</div>
+          <div class="micro on-dark">03 — Methodology</div>
           <h3 class="i-ko">포맷 방법론</h3>
           <h3 class="i-ja">フォーマット方法論</h3>
         <h3 class="i-en">The Format Method</h3>
@@ -751,19 +773,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </div>
-      <div class="panel rv">
-        <div class="big">KR&nbsp;×&nbsp;JP</div>
-        <div class="p-meta">
-          <div class="micro on-dark">03 — Cross-border</div>
-          <h3 class="i-ko">한일 인플루언서 네트워크</h3>
-          <h3 class="i-ja">日韓インフルエンサー・ネットワーク</h3>
-        <h3 class="i-en">Korea–Japan Influencer Network</h3>
-          <p class="i-ko">한국과 일본의 인플루언서를 잇는 크로스보더 네트워크. 두 시장을 아우르는 콘텐츠와 협업의 다리를 놓고 있습니다.</p>
-          <p class="i-ja">韓国と日本のインフルエンサーをつなぐクロスボーダー・ネットワーク。二つの市場をまたぐコンテンツとコラボレーションの架け橋を築いています。</p>
-        <p class="i-en">A cross-border network linking creators in Korea and Japan — building bridges for content and collaboration across both markets.</p>
-        </div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -786,9 +796,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="uni-claim i-ko">내 이름이 브랜드가 되는 곳</div>
       <div class="uni-claim i-ja">自分の名前がブランドになる場所</div>
         <div class="uni-claim i-en">Where your own name becomes the brand</div>
-      <p class="uni-lead i-ko">훜 유니버스는 세 개의 궤도로 움직입니다. 무엇을 말할 것인가, 어떻게 기억될 것인가, 그리고 어떻게 성장할 것인가.</p>
-      <p class="uni-lead i-ja">フック・ユニバースは三つの軌道で動きます。何を語るのか、どう記憶されるのか、そしてどう成長するのか。</p>
-        <p class="uni-lead i-en">Hook Universe moves along three orbits: what you will say, how you will be remembered, and how you will grow.</p>
+      <p class="uni-lead i-ko">훜 유니버스는 세 개의 궤도로 움직입니다.<br><span class="nb">무엇을 말할 것인가</span>, <span class="nb">어떻게 기억될 것인가</span>, <span class="nb">그리고 어떻게 성장할 것인가.</span></p>
+      <p class="uni-lead i-ja">フック・ユニバースは三つの軌道で動きます。<br><span class="nb">何を語るのか</span>、<span class="nb">どう記憶されるのか</span>、<span class="nb">そしてどう成長するのか。</span></p>
+        <p class="uni-lead i-en">Hook Universe moves along three orbits:<br>what you will say, how you will be remembered, <span class="nb">and how you will grow.</span></p>
     </div>
 
 
