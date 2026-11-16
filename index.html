@@ -201,8 +201,10 @@ section{padding:130px 0 0}
 .mt-ph img{width:100%;height:100%;object-fit:cover;display:block;
   transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .mt-ph:hover img{transform:scale(1.04)}
+.mt-ph.wide{grid-column:span 2;aspect-ratio:2.72}
 .mt-note{margin-top:30px;font-size:12.5px;font-weight:300;color:rgba(255,255,255,.4)}
-@media(max-width:980px){.mt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:980px){.mt-grid{grid-template-columns:repeat(2,1fr)}
+  .mt-ph.wide{grid-column:1/-1;aspect-ratio:16/9}}
 @media(max-width:720px){.mentor{padding:84px 0 88px;margin-top:84px}
   .mt-grid{grid-template-columns:repeat(2,1fr);gap:8px;margin-top:40px}
   .mt-lead{font-size:14px}.mt-num{padding:9px 16px;font-size:12.5px}}
@@ -1270,8 +1272,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
-
-
 <div class="mentor" id="mentor">
   <div class="mentor-in">
     <div class="micro rv">Mentor</div>
@@ -1304,8 +1304,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <figure class="mt-ph"><img src="photos/m16.jpg" alt="" loading="lazy" decoding="async"></figure>
           <figure class="mt-ph"><img src="photos/m17.jpg" alt="" loading="lazy" decoding="async"></figure>
           <figure class="mt-ph"><img src="photos/m18.jpg" alt="" loading="lazy" decoding="async"></figure>
-          <figure class="mt-ph"><img src="photos/m19.jpg" alt="" loading="lazy" decoding="async"></figure>
-          <figure class="mt-ph"><img src="photos/m20.jpg" alt="" loading="lazy" decoding="async"></figure>
+          <figure class="mt-ph wide"><img src="photos/m19.jpg" alt="" loading="lazy" decoding="async"></figure>
     </div>
   </div>
 </div>
